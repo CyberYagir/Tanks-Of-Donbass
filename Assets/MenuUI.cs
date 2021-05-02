@@ -70,8 +70,11 @@ public class MenuUI : MonoBehaviour
         LoginName.text = PlayerPrefs.GetString("Login");
         LoginPass.text = PlayerPrefs.GetString("Password");
 
-        if (PlayerPrefs.HasKey("Vol")) PlayerPrefs.SetFloat("Vol", 0.5f);
-        sliderVolume.value = PlayerPrefs.HasKey("Vol") ? PlayerPrefs.GetFloat("Vol") : 0.05f;
+        if (!PlayerPrefs.HasKey("Vol"))
+        {
+            PlayerPrefs.SetFloat("Vol", 0.1f);
+        }
+        sliderVolume.value = PlayerPrefs.GetFloat("Vol", 0.1f);
         saveInput.isOn = bool.Parse(PlayerPrefs.GetString("Save") != "" ? PlayerPrefs.GetString("Save") : "False");
     }
    

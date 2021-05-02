@@ -129,13 +129,19 @@ public class Player : MonoBehaviourPun, IPunObservable {
     {
         var pos = FindObjectOfType<GameManager>().points[Random.Range(0, FindObjectOfType<GameManager>().points.Length)].position;
         var rot = Quaternion.identity;
+        var camPos = pos + new Vector3(0,4,0);
+        var camRot = Quaternion.identity;
         if (player != null)
         {
             pos = player.transform.position;
             rot = player.transform.rotation;
+            camPos = player.GetComponent<TankCamera>().camera.transform.position;
+            camRot = player.GetComponent<TankCamera>().camera.transform.rotation;
             PhotonNetwork.Destroy(player.gameObject);
         }
         player = PhotonNetwork.Instantiate(playerPrefab.gameObject.name, pos, rot).GetComponent<Player>();
+        player.GetComponent<TankCamera>().camera.transform.position = camPos;
+        player.GetComponent<TankCamera>().camera.transform.rotation = camRot;
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
