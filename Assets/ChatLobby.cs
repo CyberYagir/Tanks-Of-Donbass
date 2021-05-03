@@ -51,7 +51,7 @@ public class ChatLobby : MonoBehaviourPun , IChatClientListener
         if (chatClient != null)
         {
             chatClient.Service();
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.LeftShift))
             {
                 Send();
             }
