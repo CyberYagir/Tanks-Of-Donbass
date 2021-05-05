@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 public class TankShoot : MonoBehaviour
 {
     public enum WeaponType {Cannon, Fervent, Rail, Launcher};
@@ -22,7 +22,9 @@ public class TankShoot : MonoBehaviour
         {
             var s = tank.weapons[tank.weapon];
 
-            var players = FindObjectsOfType<Tank>();
+            var finded = FindObjectsOfType<Tank>().ToList();
+            finded.RemoveAll(x=>x.GetComponent<TankDead>() != null);
+            var players = finded.ToArray();
             seensPlayers.Clear();
             poses.Clear();
             for (int i = 0; i < players.Length; i++)
@@ -97,7 +99,7 @@ public class TankShoot : MonoBehaviour
                             {
                                 if (hit.collider != null)
                                 {
-                                    if (hit.transform.GetComponent<Tank>() != null)
+                                    if (hit.transform.GetComponent<Tank>() != null && hit.transform.GetComponent<TankDead>() == null)
                                     {
                                         hit.transform.GetComponent<Player>().photonView.RPC("TakeDamage", Photon.Pun.RpcTarget.OthersBuffered, (int)tank.weapons[tank.weapon].damage, (string)transform.name);
                                         seensPlayers[id].GetComponent<Player>().dmgs.Add("-" + (int)s.damage);
@@ -169,7 +171,7 @@ public class TankShoot : MonoBehaviour
                             {
                                 if (hit.collider != null)
                                 {
-                                    if (hit.transform.GetComponent<Tank>() != null)
+                                    if (hit.transform.GetComponent<Tank>() != null && hit.transform.GetComponent<TankDead>() == null)
                                     {
                                         if (seensPlayers.Count > 0)
                                         {
