@@ -34,6 +34,9 @@ public class TankCamera : MonoBehaviour
         }
 
         shootCam.transform.parent = tank.weapons[tank.weapon].weapon.transform;
+    }
+
+    void FixedUpdate(){
         Update_Other();
     }
     private void Update_Other()
@@ -47,7 +50,7 @@ public class TankCamera : MonoBehaviour
         if (Physics.Raycast(transform.position, dir, out hit, Vector3.Distance(tank.weapons[tank.weapon].weapon.transform.position + tank.weapons[tank.weapon].weapon.transform.TransformVector(offcet), transform.position)))
         {
             if (hit.collider != null)
-            {
+            { 
                 wall = true;
                 print("true");
             }
